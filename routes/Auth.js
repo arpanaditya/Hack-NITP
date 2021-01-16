@@ -3,15 +3,6 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/user');
 
-router.get('/',(req,res) => {
-    User.findOne({username:"Prateek"})
-    .then((users) => {
-        console.log(users);
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-})
 router.post('/signup',(req,res)=>{
     const {username,password,email} = req.body 
     if(!username || !password || !email){
