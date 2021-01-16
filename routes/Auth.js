@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const {JWT_SECRET} = require('../config/keys');
 
 router.post('/signup',(req,res)=>{
     const {username,password,email} = req.body 
@@ -43,7 +45,8 @@ router.post('/signup',(req,res)=>{
            return res.status(422).json({error:"Invalid username"})
         }
         if(User.password === password){
-           res.json({message:"successfully signed in"})
+           const token = jwt.sign({_id:User._id},JWT_SECRET);
+           res.json({token,User});
         }
         else{
             return res.status(422).json({error:"Invalid password"})
